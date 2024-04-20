@@ -1,0 +1,198 @@
+-- Gui to Lua
+-- Version: 3.6
+
+-- Instances:
+
+local ScreenGui = Instance.new("ScreenGui")
+local Frame = Instance.new("Frame")
+local TextButton = Instance.new("TextButton")
+
+-- Properties:
+
+ScreenGui.Parent = game.Players.LocalPlayer:WaitForChild("PlayerGui")
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling
+
+Frame.Parent = ScreenGui
+Frame.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+Frame.BorderColor3 = Color3.fromRGB(0, 0, 0)
+Frame.BorderSizePixel = 0
+Frame.Position = UDim2.new(0.411683798, 0, -0.00117141684, 0)
+Frame.Size = UDim2.new(0, 129, 0, 58)
+
+TextButton.Parent = Frame
+TextButton.BackgroundColor3 = Color3.fromRGB(255, 255, 255)
+TextButton.BorderColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.BorderSizePixel = 0
+TextButton.Size = UDim2.new(0, 129, 0, 58)
+TextButton.Font = Enum.Font.SourceSans
+TextButton.Text = "Skip"
+TextButton.TextColor3 = Color3.fromRGB(0, 0, 0)
+TextButton.TextSize = 60.000
+
+-- Scripts:
+
+local function RQFZL_fake_script() -- TextButton.LocalScript 
+	local script = Instance.new('LocalScript', TextButton)
+
+	findtarget()
+end
+coroutine.wrap(RQFZL_fake_script)()
+local function KTOLLTY_fake_script() -- Frame.Script 
+	local script = Instance.new('Script', Frame)
+
+	function HopServer(bO)
+		pcall(function()
+			if not bO then
+				bO = 10
+			end
+			ticklon = tick()
+			repeat
+				task.wait()
+			until tick() - ticklon >= 1
+			local function Hop()
+				if not CheckInComBat() then
+					for r = 1, math.huge do
+						if getgenv().Setting.Misc["Region Hop"] == nil or getgenv().Setting.Misc["Region Hop"] == "" then -- Singapore, United States, Germany, etc
+							ChooseRegion = "Singapore"
+						elseif getgenv().Setting.Misc["Region Hop"] == "United States" then
+							ChooseRegion = "United States"
+						elseif getgenv().Setting.Misc["Region Hop"] == "Singapore" then
+							ChooseRegion = "Singapore"
+						elseif getgenv().Setting.Misc["Region Hop"] == "Germany" then
+							ChooseRegion = "Germany"
+						else
+							game:GetService("Players").LocalPlayer.PlayerGui.ServerBrowser.Frame.Filters.SearchRegion.TextBox.Text = ChooseRegion -- game:GetService("Players").LocalPlayer.PlayerGui.ServerBrowser.Frame.Filters.SearchRegion.TextBox.Text = ChooseRegion
+						end
+						local bP = game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer(r)
+						for k, v in pairs(bP) do
+							if k ~= game.JobId and v["Count"] < bO then
+								game:GetService("ReplicatedStorage").__ServerBrowser:InvokeServer("teleport", k)
+							end
+						end
+					end
+				end
+				return false
+			end
+			if not getgenv().Loaded then
+				local function bQ(v)
+					if v.Name == "ErrorPrompt" then
+						if v.Visible then
+							if v.TitleFrame.ErrorTitle.Text == "Teleport Failed" then
+								HopServer()
+								v.Visible = false
+							end
+						end
+						v:GetPropertyChangedSignal("Visible"):Connect(
+						function()
+							if v.Visible then
+								if v.TitleFrame.ErrorTitle.Text == "Teleport Failed" then
+									HopServer()
+									v.Visible = false
+								end
+							end
+						end
+						)
+					end
+				end
+				for k, v in pairs(game.CoreGui.RobloxPromptGui.promptOverlay:GetChildren()) do
+					bQ(v)
+				end
+				game.CoreGui.RobloxPromptGui.promptOverlay.ChildAdded:Connect(bQ)
+				getgenv().Loaded = true
+			end
+			while task.wait(0.1) do
+				Hop()
+			end
+		end)
+	end
+	usedEnemy = {} 
+	table.insert(usedEnemy, lp)
+	function findvalidlistplayer()
+		validplayerlist = {}
+		for i, v in pairs(game.Players:GetPlayers()) do
+			if v and v.Team and v.Character and v.Character:FindFirstChild("Head") and string.find(string.lower(tostring(v.Team)), "es") 
+				and (tostring(lp.Team) == "Pirates" or tostring(v.Team) == "Pirates") and lp.Data.Level.Value - v.Data.Level.Value < 300 and CalcDistance(GetBypassPos(v.Character.HumanoidRootPart.CFrame), v.Character.HumanoidRootPart.CFrame) < 3500
+				and not ({["Portal-Portal"] = true, ["Leopard-Leopard"] = true, ["Buddha-Buddha"] = true, ["Kitsune-Kitsune"] = true})[tostring(v.Data.DevilFruit.Value)]
+				and not table.find(usedEnemy, v) and not table.find(validplayerlist, v)
+				and ((getgenv().Setting.Misc["Skip V4"] and not (v.Backpack:FindFirstChild("Awakening") or v.Character:FindFirstChild("Awakening"))) or not getgenv().Setting.Misc["Skip V4"]) then 
+				table.insert(validplayerlist, v)
+			end
+		end
+		return validplayerlist
+	end
+	function findtarget()
+		dist = math.huge
+		returnenemy = nil
+		for i, v in pairs(findvalidlistplayer()) do
+			if v and v.Parent and v.Character and v.Character:FindFirstChild("HumanoidRootPart") then
+				if lp and lp.Parent and lp.Character and lp.Character:FindFirstChild("HumanoidRootPart") then
+					if CalcDistance(v.Character.HumanoidRootPart.CFrame, lp.Character.HumanoidRootPart.CFrame) < dist then
+						returnenemy = v
+						dist = CalcDistance(v.Character.HumanoidRootPart.CFrame, lp.Character.HumanoidRootPart.CFrame)
+					end
+				end
+			end
+		end
+		if returnenemy ~= nil then
+			table.insert(usedEnemy, returnenemy)
+			enemy = returnenemy
+		else
+			hopserver = true
+			HopServer()
+		end
+	end
+	function CheckRaidTarget(q0) 
+		for a=1,5,1 do 
+			local a0 = game:GetService("Workspace")["_WorldOrigin"].Locations:FindFirstChild("Island"..a) 
+			if a0 and WaitHRP(q0, a0:GetModelCFrame()) < 3000 then 
+				return true 
+			end 
+		end 
+		return false
+	end 
+	NotifyList = {}
+	function checkNotify(msg)
+		for r, k in pairs(game.Players.LocalPlayer.PlayerGui.Notifications:GetChildren()) do
+			if k and k.Text and string.find(string.lower(k.Text), msg) and not table.find(NotifyList, k) then
+				table.insert(NotifyList, k)
+				return true
+			end
+		end
+		return false
+	end
+	fromtime = 0
+	function checktarget() 
+		if not enemy then 
+			return findtarget() 
+		end 
+		if not enemy.Parent then 
+			return findtarget() 
+		end 
+		if not enemy.Character then 
+			return findtarget() 
+		end   
+		if enemy.Character.Humanoid.Health <= 0 then
+			return findtarget() 
+		end
+		if (checkNotify("died") or checkNotify("tử trận") or checkNotify("safe") or checkNotify("an toàn")) and enemy:DistanceFromCharacter(lp.Character:WaitForChild("Head", 9).Position) <= 15 then
+			return findtarget() 
+		end 
+		if CheckRaidTarget(enemy) then
+			return findtarget() 
+		end
+		if lp.PlayerGui.Main.BottomHUDList.SafeZone.Visible and enemy:DistanceFromCharacter(lp.Character:WaitForChild("Head", 9).Position) <= 15 then
+			return findtarget()
+		end
+		if enemy:DistanceFromCharacter(lp.Character:WaitForChild("Head").Position) < 300 then 
+			if os.time() - fromtime > 100 then 
+				if not CheckInComBat() then
+					return findtarget()
+				end
+			end
+		else 
+			fromtime = os.time() 
+		end
+		return true
+	end
+end
+coroutine.wrap(KTOLLTY_fake_script)()
