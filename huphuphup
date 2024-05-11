@@ -60,7 +60,12 @@
   _4.Text = "Skip"
   _4.TextColor3 = Color3.fromRGB(255, 255, 255)
   _4.TextSize = 25.000
-  
+    _4.MouseButton1Down:connect(
+    function()
+        findtarget()
+    end
+    				)
+
   _5.Name = "5"
   _5.Parent = _4
   
