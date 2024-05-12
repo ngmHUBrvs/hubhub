@@ -123,7 +123,7 @@
   _10.Position = UDim2.new(0.0271171182, 0, 0.167329997, 0)
   _10.Size = UDim2.new(0, 165, 0, 50)
   _10.Font = Enum.Font.SourceSans
-  _10.Text = "  Bounty/Honor : "
+  _10.Text = "-- Bounty/Honor : "
   _10.TextColor3 = Color3.fromRGB(255, 255, 255)
   _10.TextSize = 25.000
   
@@ -136,7 +136,7 @@
   _11.Position = UDim2.new(0.0542342365, 0, 0.334659994, 0)
   _11.Size = UDim2.new(0, 164, 0, 50)
   _11.Font = Enum.Font.SourceSans
-  _11.Text = "  Client Time :"
+  _11.Text = "-- Client Time :"
   _11.TextColor3 = Color3.fromRGB(255, 255, 255)
   _11.TextSize = 25.000
   
@@ -149,7 +149,7 @@
   _12.Position = UDim2.new(0, 0, 0.50199002, 0)
   _12.Size = UDim2.new(0, 185, 0, 50)
   _12.Font = Enum.Font.SourceSans
-  _12.Text = "  Time Elapsed :"
+  _12.Text = "-- Time Elapsed :"
   _12.TextColor3 = Color3.fromRGB(255, 255, 255)
   _12.TextSize = 25.000
 
